@@ -8,6 +8,11 @@ export const getSourcePath = (context: vscode.ExtensionContext, relativePath: st
   return disk.with({ scheme: 'vscode-resource' });
 };
 
+export const getLoadingPage = (context: vscode.ExtensionContext): string => {
+  const html = getLoadingHtml(context);
+  return getHtml(context, html);
+};
+
 export const getLoadingHtml = (context: vscode.ExtensionContext): string => {
   const imgPath = getSourcePath(context, 'logo.svg');
   const html = `
@@ -18,7 +23,7 @@ export const getLoadingHtml = (context: vscode.ExtensionContext): string => {
       </div>
     </div>
   `;
-  return getHtml(context, html);
+  return html;
 };
 
 export const getHtml = (

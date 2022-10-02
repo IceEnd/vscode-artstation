@@ -1,7 +1,13 @@
 import * as vscode from 'vscode';
-import { setCookie, fetchList } from './api';
-import { channelType, IImageInfo, IIconInfo, IMessage } from './model';
-import { getHtml, getLoadingHtml } from '../helper';
+import { setCookie, fetchList, fetchProject } from './api';
+import {
+  channelType,
+  IImageInfo,
+  IIconInfo,
+  IMessage,
+  IProject,
+} from './model';
+import { getHtml, getLoadingPage, getLoadingHtml } from '../helper';
 import { SyncKeys } from '../constants';
 
 const state = {
@@ -19,7 +25,7 @@ export const artstation = (context: vscode.ExtensionContext) => {
     }
   );
 
-  panel.webview.html = getLoadingHtml(context);
+  panel.webview.html = getLoadingPage(context);
 
   const cookie = context.globalState.get(SyncKeys.cookie) || '';
   setCookie(cookie as string);
@@ -32,18 +38,67 @@ export const artstation = (context: vscode.ExtensionContext) => {
   panel.webview.onDidReceiveMessage((message: IMessage) => {
     handleLoadMore(panel, message);
     handleChannel(panel, message);
+    handleProject(panel, message);
   }, undefined, context.subscriptions);
 };
 
+const handleLoadMore = async (panel: vscode.WebviewPanel, message: IMessage) => {
+  if (message.command !== 'load-more') {
+    return;
+  }
+  state.page += 1;
+  const res = await fetchList(state.channel, state.page);
+  panel.webview.postMessage({
+    command: message.command,
+    payload: {
+      channel: message.payload as string,
+      html: getListHtml(res.data),
+    },
+  });
+};
+
+const handleChannel = async (panel: vscode.WebviewPanel, message: IMessage) => {
+  if (message.command !== 'channel') {
+    return;
+  }
+  state.page = 1;
+  state.channel = message.payload as channelType;
+  const res = await fetchList(state.channel, state.page);
+  panel.webview.postMessage({
+    command: message.command,
+    payload: {
+      channel: message.payload as string,
+      html: getListHtml(res.data),
+    },
+  });
+};
+
+const handleProject = async (panel: vscode.WebviewPanel, message: IMessage) => {
+  if (message.command !== 'project') {
+    return;
+  }
+  const res = await fetchProject(message.payload as string);
+  panel.webview.postMessage({
+    command: message.command,
+    payload: {
+      hashID: message.payload as string,
+      html: getProjectHtml(res),
+    },
+  });
+};
 
 const getContentHtml = (context: vscode.ExtensionContext, data: IImageInfo[]): string => {
   const tool = getToolHtml();
   const list = `<div class="gallery-grid artstation" id="gallery-grid-artstation">${getListHtml(data)}</div>`;
-  const loading = '<div class="loading-wrapper">loading...</div>';
   const content = `
     <div class="artstation">
-      ${tool}${list}${loading}
-    <div>
+    ${tool}${list}
+    <div class="loading-wrapper">loading...</div>
+    <div class="project-overlay">
+      ${getLoadingHtml(context)}
+      <div class="project-overlay-content"></div>
+    </div>
+    </div>
   `;
   return getHtml(context, content, true);
 };
@@ -70,7 +125,7 @@ const getToolHtml = (): string => `
 const getListHtml = (data: IImageInfo[]): string => {
   const html = data.reduce((acc, image: IImageInfo) => {
     const content = `
-      <div class="gallery-grid-item">
+      <div class="gallery-grid-item" hash-id="${image.hash_id}">
         ${getIcons(image.icons)}
         <div class="gallery-grid-overlay d-none d-md-block">
           <div class="gallery-grid-info">
@@ -101,37 +156,7 @@ const getIcons = (icons: IIconInfo): string => `
 </ul>
 `;
 
-const handleLoadMore = (panel: vscode.WebviewPanel, message: IMessage) => {
-  if (message.command !== 'load-more') {
-    return;
-  }
-  state.page += 1;
-  fetchList(state.channel, state.page)
-    .then((res) => {
-      panel.webview.postMessage({
-        command: message.command,
-        payload: {
-          channel: message.payload as string,
-          html: getListHtml(res.data),
-        },
-      });
-    });
-};
-
-const handleChannel = (panel: vscode.WebviewPanel, message: IMessage) => {
-  if (message.command !== 'channel') {
-    return;
-  }
-  state.page = 1;
-  state.channel = message.payload as channelType;
-  fetchList(state.channel, state.page)
-    .then((res) => {
-      panel.webview.postMessage({
-        command: message.command,
-        payload: {
-          channel: message.payload as string,
-          html: getListHtml(res.data),
-        },
-      });
-    });
+const getProjectHtml = (project: IProject): string => {
+  console.log(project);
+  return '';
 };

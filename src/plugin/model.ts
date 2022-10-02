@@ -13,6 +13,56 @@ export interface IImageInfo {
   user: IUserInfo,
 }
 
+export interface IProject {
+  admin_adult_content: boolean,
+  adult_content: boolean,
+  categories: unknown[],
+  collections: unknown[],
+  comments_count: number,
+  cover_url: string,
+  created_at: string,
+  description: string,
+  description_html: string,
+  editor_pick: boolean,
+  hash_id: string,
+  hide_as_adult: boolean,
+  id: number,
+  liked: boolean,
+  likes_count: number,
+  medium?: unknown,
+  mediums: unknown[],
+  permalink: string,
+  published_at: string,
+  slug: string,
+  software_items: unknown[],
+  suppressed: boolean,
+  tags: string[],
+  title: string,
+  updated_at: string,
+  user: IUserInfo,
+  user_id: number,
+  views_count: number,
+  visible: boolean,
+  visible_on_artstation: boolean,
+  assets: IAssets[],
+}
+
+export interface IAssets {
+  asset_type: assetType,
+  has_embedded_player: boolean,
+  has_image: boolean,
+  height: number,
+  width: number,
+  id: number,
+  image_url: string,
+  oembed: unknown,
+  player_embedded: unknown,
+  position: number,
+  title: string,
+  title_formatted: string,
+  viewport_constraint_type: string,
+}
+
 export interface IUserInfo {
   full_name: string,
   id: number,
@@ -23,6 +73,8 @@ export interface IUserInfo {
   medium_avatar_url: string,
   pro_member: boolean,
   username: string,
+  blocked: boolean,
+  followed: boolean,
 }
 
 export interface IIconInfo {
@@ -45,4 +97,11 @@ export enum channelType {
   trending = 'trending',
   latest = 'latest',
   following = 'following',
+}
+
+export enum assetType {
+  cover = 'cover',
+  video_clip = 'video_clip',
+  image = 'image',
+  video = 'video',
 }

@@ -3,18 +3,24 @@
   const originState = {
     loading: false,
     channel: 'community',
+    projectVisible: false,
+    projectLoading: false,
+    projectID: '',
   };
 
   const state = new Proxy(originState, {
     set: (obj, prop, value) => {
       obj[prop] = value;
       handleLoading();
+      handleProjectVisible();
+      handleProjectLoading();
       return true;
     },
   });
 
   const main = () => {
     bindChannel();
+    bindProject();
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('message', handleMessage);
   };
@@ -28,6 +34,25 @@
     }
   };
 
+  const handleProjectVisible = () => {
+    const overlay = document.querySelector('.project-overlay');
+    if (state.projectVisible) {
+      overlay.classList.add('visible');
+    } else {
+      overlay.classList.remove('visible');
+    }
+  };
+
+  const handleProjectLoading = () => {
+    const overlay = document.querySelector('.project-overlay');
+    if (state.projectLoading) {
+      overlay.classList.remove('loaded');
+    } else {
+      overlay.classList.add('loaded');
+    }
+  };
+
+  /** DOM EVENTS: START **/
   const bindChannel = () => {
     const dom = document.querySelector('.channels-sorting-wrap');
     dom.addEventListener('click', (e) => {
@@ -52,6 +77,22 @@
     });
   };
 
+  const bindProject = () => {
+    const projects = document.querySelector('#gallery-grid-artstation');
+    projects.addEventListener('click', e => {
+      const target = e.target.parentElement;
+      const hashID = target.getAttribute('hash-id');
+      vscode.postMessage({
+        command: 'project',
+        payload: hashID,
+      });
+      state.projectID = hashID;
+      state.projectLoading = true;
+      state.projectVisible = true;
+    });
+  };
+   /** DOM EVENTS: END **/
+
   const handleScroll = () => {
     if (state.loading) {
       return;
@@ -71,8 +112,10 @@
     const message = event.data;
     messageLoadMore(message);
     messageChannel(message);
+    messageProject(message);
   };
 
+  /** MESSAGE CALLBACK: START */
   const messageLoadMore = message => {
     if (message.command !== 'load-more'
     || message.payload.channel !== state.channel) {
@@ -90,6 +133,17 @@
     insertHTML('#gallery-grid-artstation', message.payload.html);
     state.loading = false;
   };
+
+  const messageProject = message => {
+    if (message.command !== 'project'
+    || message.payload.hashID !== state.projectID) {
+      return;
+    }
+    const wrapper = document.querySelector('.project-overlay-content');
+    wrapper.innerHTML = message.payload.html;
+    state.projectLoading = false;
+  };
+  /** MESSAGE CALLBACK: END */
 
   const insertHTML = (selector, html) => {
     const target = document.querySelector(selector);
