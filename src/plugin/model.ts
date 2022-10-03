@@ -44,10 +44,10 @@ export interface IProject {
   views_count: number,
   visible: boolean,
   visible_on_artstation: boolean,
-  assets: IAssets[],
+  assets: IAsset[],
 }
 
-export interface IAssets {
+export interface IAsset {
   asset_type: assetType,
   has_embedded_player: boolean,
   has_image: boolean,
@@ -71,6 +71,8 @@ export interface IUserInfo {
   is_staff: boolean,
   is_studio_account: boolean,
   medium_avatar_url: string,
+  large_avatar_url: string,
+  headline: string,
   pro_member: boolean,
   username: string,
   blocked: boolean,

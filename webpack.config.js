@@ -49,6 +49,12 @@ const extensionConfig = {
 };
 module.exports = [ extensionConfig ];
 
-fs.watchFile('./src/template/styles.less', () => {
-  cp.execSync('yarn less', { stdio: 'inherit' });
+[
+  './src/template/styles/index.less',
+  './src/template/styles/common.less',
+  './src/template/styles/artstation.less',
+].forEach(file => {
+  fs.watchFile(file, () => {
+    cp.execSync('yarn less', { stdio: 'inherit' });
+  });
 });

@@ -21,7 +21,9 @@
   const main = () => {
     bindChannel();
     bindProject();
+    bindCloseProject();
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
     window.addEventListener('message', handleMessage);
   };
 
@@ -31,6 +33,7 @@
       loading.classList.add('active');
     } else {
       loading.classList.remove('active');
+      setTimeout(() => handleResize(), 200);
     }
   };
 
@@ -38,8 +41,10 @@
     const overlay = document.querySelector('.project-overlay');
     if (state.projectVisible) {
       overlay.classList.add('visible');
+      document.body.classList.add('over-hidden');
     } else {
       overlay.classList.remove('visible');
+      document.body.classList.remove('over-hidden');
     }
   };
 
@@ -91,6 +96,13 @@
       state.projectVisible = true;
     });
   };
+
+  const bindCloseProject = () => {
+    const close = document.querySelector('.project-overlay .close');
+    close.addEventListener('click', () => {
+      state.projectVisible = false;
+    });
+  };
    /** DOM EVENTS: END **/
 
   const handleScroll = () => {
@@ -113,6 +125,24 @@
     messageLoadMore(message);
     messageChannel(message);
     messageProject(message);
+  };
+
+  const handleResize = () => {
+    if (!state.projectVisible || state.projectLoading) {
+      return;
+    }
+    const assetsMain = document.querySelector('.project-assets');
+    if (!assetsMain) {
+      return;
+    }
+    const videoClipIframe = document.querySelectorAll('.asset.video-clip iframe');
+    const width = assetsMain.clientWidth;
+    for (const iframe of videoClipIframe) {
+      const w = iframe.getAttribute('width');
+      const h = iframe.getAttribute('height');
+      iframe.setAttribute('width', width);
+      iframe.setAttribute('height', Number(h) / Number(w) * width);
+    }
   };
 
   /** MESSAGE CALLBACK: START */

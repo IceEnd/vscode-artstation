@@ -35,7 +35,7 @@
     "package": "webpack --mode production --devtool hidden-source-map",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "less": "lessc ./src/template/styles.less ./src/template/styles.css -x +F",
+    "less": "lessc ./src/template/styles/index.less ./src/template/styles.css -x +F",
     "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
@@ -58,6 +58,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "dayjs": "^1.11.5"
   }
 }
