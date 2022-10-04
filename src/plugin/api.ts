@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import * as vscode from 'vscode';
-import { channelType, IListResponse } from './model';
+import { channelType, IListResponse, IProject } from './model';
 
 const instance = axios.create({
-  baseURL: 'https://www.artstation.com/api/v2/community/explore/projects/',
+  baseURL: 'https://www.artstation.com/',
   timeout: 10000,
 });
 
@@ -36,8 +36,7 @@ export const fetchList = (
   type = channelType.community,
   page = 1,
 ): Promise<IListResponse> => {
-  const url = `${type}.json`;
-  console.log(`https://www.artstation.com/api/v2/community/explore/projects/${url}`);
+  const url = `api/v2/community/explore/projects/${type}.json`;
   return instance.get(url, {
     params: {
       page,
@@ -45,4 +44,9 @@ export const fetchList = (
       dimension: 'all',
     },
   });
+};
+
+export const fetchProject = (hashID: string): Promise<IProject> => {
+  const url = `projects/${hashID}.json`;
+  return instance.get(url);
 };
