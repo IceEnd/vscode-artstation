@@ -8,30 +8,28 @@
 
 [English](./README.md) | [中文](./README.zh-CN.md)
 
-## Features
+## 功能
 
-- Browse Artstation projects on VS Code.
-- Set system wallpaper.
+- 在 VS Code 中浏览 Artstattion
+- 一键设置系统壁纸
 
 |    SCREEN | SHOT |
 |-------:|:-----|
 | ![image](https://user-images.githubusercontent.com/11556339/193978773-d9b93e2e-3d4d-4c67-bf75-f0d9a9683be6.png) | ![image](https://user-images.githubusercontent.com/11556339/193978873-6e3e797b-5783-4554-8fa5-cde9648ccc4b.png) |
 
 
-
-
-## Command
+## 命令
 
 | Name                      | Description                                 |
 | :------------------------ | :------------------------------------------ |
-| `Artstation login`        | Enter the cookie to log in to Artstation.   |
-| `Artstation start`        | Start extension                             |
+| `Artstation login`        | 输入 Artstation 的 cookie 进行登录           |
+| `Artstation start`        | 启动 Artstation                             |
 
 ## Config
 
-| Name                        |      Type       |   Default    | Description                |
-| :-------------------------- | :-------------: | :----------: | :------------------------- |
-| `artstation.wallpaperPath`  |    `string`     |     `''`     | Wallpaper save path        |
+| Name                            |      Type       |   Default    | Description                |
+| :------------------------------ | :-------------: | :----------: | :------------------------- |
+| `artstation.wallpaperPath`      |    `string`     |     `''`     | 壁纸保存路径                |
 
 
 

@@ -31,8 +31,8 @@ export const getHtml = (
   html: string,
   artstation = false,
 ): string => {
-  const cssPath = getSourcePath(context, 'src/template/styles.css');
-  const artstationJS = getSourcePath(context, 'src/template/artstation.js');
+  const cssPath = getSourcePath(context, 'template/styles.css');
+  const artstationJS = getSourcePath(context, 'template/artstation.js');
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -48,4 +48,13 @@ export const getHtml = (
   </body>
   </html>
   `;
+};
+
+export const randomString = (length = 32): string => {
+  const token = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
+  let res = '';
+  for (let i = 0; i < length; i++) {
+    res += token.charAt(Math.floor(Math.random() * token.length))
+  };
+  return res;
 };

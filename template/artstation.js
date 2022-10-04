@@ -34,6 +34,7 @@
     bindProject();
     bindCloseProject();
     bindFollow();
+    bindSetBackground();
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
     window.addEventListener('message', handleMessage);
@@ -132,6 +133,23 @@
         },
       });
     };
+  };
+
+  const bindSetBackground = () => {
+    const overlay = document.querySelector(SELECTORS.projectOverlay);
+    overlay.addEventListener('click', e => {
+      if (!e.target.classList.value.includes('asset-actions-btn-bg')) {
+        return;
+      }
+      vscode.postMessage({
+        command: 'wappler',
+        payload: {
+          url: e.target.getAttribute('data-url'),
+          for: e.target.getAttribute('data-for'),
+        },
+      });
+      console.log(e.target);
+    });
   };
    /** DOM EVENTS: END **/
 
