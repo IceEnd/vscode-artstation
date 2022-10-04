@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
-import { setCookie, fetchList, fetchProject } from './api';
+import * as apis from './api';
 import {
   channelType,
   IImageInfo,
@@ -29,15 +29,16 @@ export const artstation = (context: vscode.ExtensionContext) => {
     vscode.ViewColumn.One,
     {
       enableScripts: true,
+      retainContextWhenHidden: true,
     }
   );
 
   panel.webview.html = getLoadingPage(context);
 
   const cookie = context.globalState.get(SyncKeys.cookie) || '';
-  setCookie(cookie as string);
+  apis.setCookie(cookie as string);
 
-  fetchList(state.channel, state.page)
+  apis.fetchList(state.channel, state.page)
     .then((res) => {
       panel.webview.html = renderContent(context, res.data);
     });
@@ -46,6 +47,7 @@ export const artstation = (context: vscode.ExtensionContext) => {
     handleLoadMore(panel, message);
     handleChannel(panel, message);
     handleProject(panel, message);
+    handleFollowing(panel, message);
   }, undefined, context.subscriptions);
 };
 
@@ -54,7 +56,7 @@ const handleLoadMore = async (panel: vscode.WebviewPanel, message: IMessage) => 
     return;
   }
   state.page += 1;
-  const res = await fetchList(state.channel, state.page);
+  const res = await apis.fetchList(state.channel, state.page);
   panel.webview.postMessage({
     command: message.command,
     payload: {
@@ -70,7 +72,7 @@ const handleChannel = async (panel: vscode.WebviewPanel, message: IMessage) => {
   }
   state.page = 1;
   state.channel = message.payload as channelType;
-  const res = await fetchList(state.channel, state.page);
+  const res = await apis.fetchList(state.channel, state.page);
   panel.webview.postMessage({
     command: message.command,
     payload: {
@@ -84,13 +86,48 @@ const handleProject = async (panel: vscode.WebviewPanel, message: IMessage) => {
   if (message.command !== 'project') {
     return;
   }
-  const res = await fetchProject(message.payload as string);
+  const res = await apis.fetchProject(message.payload as string);
   panel.webview.postMessage({
     command: message.command,
     payload: {
       hashID: message.payload as string,
       html: renderProjectView(res),
     },
+  });
+};
+
+const handleFollowing = async (panel: vscode.WebviewPanel, message: IMessage) => {
+  if (message.command !== 'following') {
+    return;
+  }
+  interface IPayload {
+    id: string,
+    followed: boolean,
+    hashID: string,
+  }
+  const payload = {
+    success: true,
+    hashID: (message.payload as IPayload).hashID,
+    followed: (message.payload as IPayload).followed,
+  };
+  try {
+    interface IPayload {
+      id: string,
+      followed: boolean,
+      hashID: string,
+    }
+    await apis.fetchFollowing(
+      (message.payload as IPayload).id,
+      state.channel,
+      (message.payload as IPayload).followed,
+    );
+    payload.followed = !payload.followed;
+  } catch (error) {
+    payload.success = false;
+  }
+  panel.webview.postMessage({
+    command: message.command,
+    payload,
   });
 };
 
@@ -236,11 +273,14 @@ const renderAuthor = (author: IUserInfo): string => `
     <h3 class="project-author-name">${author.username}</h3>
     <h3 class="project-author-headline">${author.headline || ''}</h3>
     <div class="follow-button">
-      <button class="btn-following ${author.followed ? "followed" : ''}" type="button">
-        <span class="not-followed">
-          <i class="far fa-check fa-pad-right"></i>Following
-        <span>
+      <button
+        class="btn-following disabled disabled-1 ${author.followed ? 'followed' : ''}"
+        type="button"
+      >
         <span class="has-followed">
+          <i class="far fa-check fa-pad-right"></i>Following
+        </span>
+        <span class="not-followed">
           <i class="far fa-user-plus fa-pad-right"></i>Follow
         </span>
       </button>
@@ -252,7 +292,7 @@ const renderAuthor = (author: IUserInfo): string => `
 const renderUserAction = (project: IProject): string => `
 <div class="project-actions-user row">
   <div class="col-xs-6">
-    <button class="btn-like btn-block ${project.liked ? '' : 'btn-success'}">
+    <button class="btn-like disabled btn-block ${project.liked ? '' : 'btn-success'}">
       <span class="liked-txt">
         <i class="far fa-check fa-pad-right"></i>Liked
       </span>

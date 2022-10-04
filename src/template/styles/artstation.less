@@ -211,16 +211,18 @@
         color: var(--vscode-textLink-foreground);
       }
 
-      .has-followed {
-        display: none;
-      }
-
-      &.followed {
+      .btn-following {
         .has-followed {
-          display: inline-block;
-        }
-        .not-followed {
           display: none;
+        }
+
+        &.followed {
+          .has-followed {
+            display: inline-block;
+          }
+          .not-followed {
+            display: none;
+          }
         }
       }
     }

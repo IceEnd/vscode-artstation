@@ -94,6 +94,10 @@ export interface IMessage {
   payload: unknown,
 }
 
+export interface IToken {
+  token: string,
+}
+
 export enum channelType {
   community = 'community',
   trending = 'trending',
