@@ -2064,6 +2064,11 @@ util-deprecate@~1.0.1:
   resolved "https://mirrors.tencent.com/npm/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
+wallpaper@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/wallpaper/-/wallpaper-6.1.1.tgz#adb1e1c23b3f4f21269338bbee204ba0f813f308"
+  integrity sha512-CWvtaanpICvFOhqr0xlAnAgxHNROK3yGN/vaSnLUyTJmmJ5ipfJpByn1yqCNV22ZNQfXULi1xS/+W9riRMXMjQ==
+
 watchpack@^2.4.0:
   version "2.4.0"
   resolved "https://mirrors.tencent.com/npm/watchpack/-/watchpack-2.4.0.tgz#fa33032374962c78113f93c7f2fb4c54c9862a5d"
