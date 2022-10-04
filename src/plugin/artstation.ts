@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as os from 'os';
 import * as dayjs from 'dayjs';
 import * as relativeTime from 'dayjs/plugin/relativeTime';
 import * as apis from './api';
@@ -12,6 +13,7 @@ import {
   assetType,
   IUserInfo,
 } from './model';
+import { setWappler } from '../wallpaper';
 import { getHtml, getLoadingPage, getLoadingHtml } from '../helper';
 import { SyncKeys } from '../constants';
 
@@ -48,6 +50,7 @@ export const artstation = (context: vscode.ExtensionContext) => {
     handleChannel(panel, message);
     handleProject(panel, message);
     handleFollowing(panel, message);
+    handleSetWallpaper(panel, message);
   }, undefined, context.subscriptions);
 };
 
@@ -100,11 +103,11 @@ const handleFollowing = async (panel: vscode.WebviewPanel, message: IMessage) =>
   if (message.command !== 'following') {
     return;
   }
-  interface IPayload {
+  type IPayload = {
     id: string,
     followed: boolean,
     hashID: string,
-  }
+  };
   const payload = {
     success: true,
     hashID: (message.payload as IPayload).hashID,
@@ -129,6 +132,24 @@ const handleFollowing = async (panel: vscode.WebviewPanel, message: IMessage) =>
     command: message.command,
     payload,
   });
+};
+
+const handleSetWallpaper = async (panel: vscode.WebviewPanel, message: IMessage) => {
+  if (message.command !== 'wappler') {
+    return;
+  }
+  interface IPayload {
+    url: string,
+    for: string,
+  }
+  const answer = await vscode.window.showInformationMessage(
+    'Do you want to set it as the system wallpaper? 要设置成系统壁纸吗？',
+    'Yes', 'No',
+  );
+  if (answer !== 'Yes') {
+    return;
+  }
+  setWappler((message.payload as IPayload).url);
 };
 
 const renderContent = (context: vscode.ExtensionContext, data: IImageInfo[]): string => {
@@ -236,9 +257,26 @@ const renderImage = (asset: IAsset): string => {
   return `
     <div class="asset asset-image">
       <img class="img-fit" src="${asset.image_url}">
+      ${renderAssetActions(asset.image_url)}
     </div>
   `;
 };
+
+const renderAssetActions = (url: string): string => {
+  if (vscode.env.uiKind !== vscode.UIKind.Desktop) {
+    return '';
+  }
+  const platform = os.platform();
+  if (!['darwin', 'win32', 'linux'].includes(platform)) {
+    return '';
+  }
+  return `
+  <div class="asset-actions">
+    <i class="asset-actions-btn-bg far fa-cog" data-url="${url}" data-for="desktop"></i>
+  </div>
+`;
+};
+
 
 const renderVideo = (asset: IAsset): string => {
   if (asset.asset_type !== assetType.video
@@ -270,7 +308,7 @@ const renderAuthor = (author: IUserInfo): string => `
     <img class="img-circle" src="${author.medium_avatar_url}" alt="${author.username}">
   </div>
   <div class="project-author">
-    <h3 class="project-author-name">${author.username}</h3>
+    <h2 class="project-author-name">${author.username}</h2>
     <h3 class="project-author-headline">${author.headline || ''}</h3>
     <div class="follow-button">
       <button

@@ -66,15 +66,15 @@
     &-item {
       display: inline-block;
       vertical-align: top;
-      height: 12px;
-      line-height: 12px;
-      width: 14px;
+      height: 16px;
+      line-height: 16px;
+      width: 20px;
       background-color: rgba(34, 34, 34, .8);
       text-align: center;
 
       .far {
         color: #bbb;
-        font-size: 8px;
+        font-size: 12px;
       }
     }
   }
@@ -109,14 +109,13 @@
   }
 
   &-title {
-    font-size: 12px;
-    font-weight: 300;
+    font-size: 14px;
     line-height: 1.16;
     margin-bottom: 3px;
   }
 
   &-name {
-    font-size: 8px;
+    font-size: 12px;
     line-height: 1.25;
   }
 }
@@ -193,7 +192,6 @@
 
     &-name {
       color: var(--vscode-button-foreground);
-      font-size: 14px;
       font-weight: normal;
     }
 
@@ -253,20 +251,17 @@
     padding-top: 14px;
 
     &-title {
-      font-size: 14px;
       font-weight: normal;
       margin-bottom: 8px;
     }
 
     &-description {
-      font-size: 10px;
       color: var(--vscode-foreground);
       margin-bottom: 8px;
       line-height: 1.8;
 
       p {
         margin-bottom: 6px;
-        font-weight: 300;
       }
 
       .expanded-url {
@@ -297,11 +292,11 @@
 
           & > span {
             padding-top: 3px;
-            font-size: 8px;
+            font-size: 14px;
             display: block;
 
             &.expanded-url-title {
-              font-size: 10px;
+              font-size: 12px;
               color: var(--vscode-textLink-foreground);
             }
           }
@@ -312,7 +307,7 @@
     &-published {
       color: var(--vscode-input-placeholderForeground);
       font-style: italic;
-      font-size: 8px;
+      font-size: 12px;
     }
   }
 
@@ -320,7 +315,7 @@
     display: flex;
     justify-content: space-between;
     color: var(--vscode-foreground);
-    font-size: 8px;
+    font-size: 12px;
     margin-top: 8px;
 
     .likes {
@@ -337,10 +332,50 @@
     &::-webkit-scrollbar {
       display: none;
     }
+
+    .asset-image {
+      position: relative;
+
+      &:hover {
+        .asset-actions {
+          opacity: 1;
+        }
+      }
+
+      .asset-actions {
+        position: absolute;
+        opacity: 0;
+        background-color: rgba(30,37,39,.5);
+        border-radius: 3px;
+        padding: 2px;
+        position: absolute;
+        left: 50%;
+        bottom: 45px;
+        transform: translate(-50%, 0);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity .2s linear;
+        box-shadow: 1px 1px 5px 0 rgb(0 0 0 / 50%);
+
+        &-btn-bg {
+          font-size: 12px;
+          padding: 6px 12px;
+          line-height: 1.8;
+          border-radius: 2px;
+          user-select: none;
+          cursor: pointer;
+          transition: color ease .2s;
+
+          &:hover {
+            color: #13aff0;
+          }
+        }
+      }
+    }
   }
 }
 
-@media screen and (min-width: 200px) {
+@media screen and (min-width: 300px) {
   .gallery-grid {
     grid-template-columns: repeat(3, 1fr) !important;
   }
@@ -352,13 +387,13 @@
   }
 }
 
-@media screen and (min-width: 520px) {
+@media screen and (min-width: 640px) {
   .gallery-grid {
     grid-template-columns: repeat(4, 1fr) !important;
   }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 768px) {
   .d-lg-flex {
     display: flex !important;
   }
@@ -366,16 +401,16 @@
     overflow: hidden;
   }
   .project-sidebar {
-    width: 260px;
-    flex: 0 0 260px;
+    width: 320px;
+    flex: 0 0 320px;
     position: sticky;
     z-index: 2;
     top: 0;
     right: 0;
   }
   .project-assets {
-    width: calc(100vw - 260px);
-    flex-basis: calc(100vw - 260px);
+    width: calc(100vw - 320px);
+    flex-basis: calc(100vw - 320px);
     overflow-x: hidden;
   }
 
@@ -384,19 +419,19 @@
   }
 }
 
-@media screen and (min-width: 920px) {
+@media screen and (min-width: 992px) {
   .gallery-grid {
     grid-template-columns: repeat(6, 1fr) !important;
   }
 }
 
-@media screen and (min-width: 1080px) {
+@media screen and (min-width: 1180px) {
   .gallery-grid {
     grid-template-columns: repeat(7, 1fr) !important;
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1300px) {
   .gallery-grid {
     grid-template-columns: repeat(8, 1fr) !important;
   }

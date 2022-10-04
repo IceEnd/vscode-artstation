@@ -49,3 +49,12 @@ export const getHtml = (
   </html>
   `;
 };
+
+export const randomString = (length = 32): string => {
+  const token = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
+  let res = '';
+  for (let i = 0; i < length; i++) {
+    res += token.charAt(Math.floor(Math.random() * token.length))
+  };
+  return res;
+};

@@ -26,7 +26,17 @@
         "title": "Artstation Start",
         "category": "artstation"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Artstation",
+      "properties": {
+        "artstation.wallpaperPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Wallpaper save path.\n\n壁纸保存路径"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
@@ -59,6 +69,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "dayjs": "^1.11.5"
+    "dayjs": "^1.11.5",
+    "wallpaper": "^6.1.1"
   }
 }
