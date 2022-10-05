@@ -19,13 +19,14 @@
 
 
 
-
 ## Command
 
 | Name                      | Description                                 |
 | :------------------------ | :------------------------------------------ |
 | `Artstation login`        | Enter the cookie to log in to Artstation.   |
 | `Artstation start`        | Start extension                             |
+| `Artstation install`      | Install the wallpaper plugin                |
+| `Artstation uninstall`    | Uninstall the wallpaper plugin              |
 
 ## Config
 
