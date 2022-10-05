@@ -10,8 +10,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:artstation.artstationLogin",
-    "onCommand:artstation.artstation"
+    "onCommand:artstation.login",
+    "onCommand:artstation.start"
   ],
   "main": "./dist/extension.js",
   "icon": "logo.png",
@@ -23,12 +23,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "artstation.artstationLogin",
+        "command": "artstation.login",
         "title": "Artstation Login",
         "category": "artstation"
       },
       {
-        "command": "artstation.artstation",
+        "command": "artstation.start",
         "title": "Artstation Start",
         "category": "artstation"
       }

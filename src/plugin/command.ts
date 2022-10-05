@@ -16,7 +16,7 @@ const registerCommand = (context: vscode.ExtensionContext): void => {
  * Login with cookies
  */
 const loginCommand = async (context: vscode.ExtensionContext): Promise<void> => {
-  const disposable = vscode.commands.registerCommand('artstation.artstationLogin', async () => {
+  const disposable = vscode.commands.registerCommand('artstation.login', async () => {
     const cookie = await vscode.window.showInputBox({
       title: 'Artstation Cookie',
       placeHolder: 'Please enter cookie.',
@@ -33,7 +33,7 @@ const loginCommand = async (context: vscode.ExtensionContext): Promise<void> => 
 };
 
 const startCommand = (context: vscode.ExtensionContext): void => {
-  const disposable = vscode.commands.registerCommand('artstation.artstation', () => {
+  const disposable = vscode.commands.registerCommand('artstation.start', () => {
     artstation(context);
   });
   context.subscriptions.push(disposable);
