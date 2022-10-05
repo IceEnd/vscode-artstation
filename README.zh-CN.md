@@ -24,6 +24,8 @@
 | :------------------------ | :------------------------------------------ |
 | `Artstation login`        | 输入 Artstation 的 cookie 进行登录           |
 | `Artstation start`        | 启动 Artstation                             |
+| `Artstation install`      | 下载安装壁纸插件                             |
+| `Artstation uninstall`    | 卸载壁纸插件                                 |
 
 ## Config
 
