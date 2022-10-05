@@ -256,11 +256,7 @@ const renderImage = (asset: IAsset): string => {
   }
   return `
     <div class="asset asset-image">
-<<<<<<< HEAD
       <img class="img-fit block-center img-responsive" src="${asset.image_url}">
-=======
-      <img class="img-fit" src="${asset.image_url}">
->>>>>>> main
       ${renderAssetActions(asset.image_url)}
     </div>
   `;
