@@ -14,6 +14,12 @@
     "onCommand:artstation.artstation"
   ],
   "main": "./dist/extension.js",
+  "icon": "logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IceEnd/vscode-artstation.git"
+  },
+  "publisher": "Alchemy",
   "contributes": {
     "commands": [
       {
@@ -39,13 +45,15 @@
     }
   },
   "scripts": {
+    "prewatch": "yarn run less",
+    "precompile": "yarn run less",
     "vscode:prepublish": "yarn run package",
     "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
+    "watch": "webpack --watch --mode development",
+    "package": "webpack --mode production --devtool hidden-source-map && yarn run less",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "less": "lessc ./src/template/styles/index.less ./src/template/styles.css -x +F",
+    "less": "lessc ./template/styles/index.less ./template/styles.css -x",
     "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
@@ -64,6 +72,7 @@
     "mocha": "^10.0.0",
     "ts-loader": "^9.3.1",
     "typescript": "^4.7.4",
+    "vsce": "^2.11.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   },

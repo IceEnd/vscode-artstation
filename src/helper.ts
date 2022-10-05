@@ -31,8 +31,8 @@ export const getHtml = (
   html: string,
   artstation = false,
 ): string => {
-  const cssPath = getSourcePath(context, 'src/template/styles.css');
-  const artstationJS = getSourcePath(context, 'src/template/artstation.js');
+  const cssPath = getSourcePath(context, 'template/styles.css');
+  const artstationJS = getSourcePath(context, 'template/artstation.js');
   return `
   <!DOCTYPE html>
   <html lang="en">

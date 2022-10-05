@@ -256,7 +256,7 @@ const renderImage = (asset: IAsset): string => {
   }
   return `
     <div class="asset asset-image">
-      <img class="img-fit" src="${asset.image_url}">
+      <img class="img-fit block-center img-responsive" src="${asset.image_url}">
       ${renderAssetActions(asset.image_url)}
     </div>
   `;

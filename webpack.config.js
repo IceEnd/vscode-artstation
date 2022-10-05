@@ -49,12 +49,16 @@ const extensionConfig = {
 };
 module.exports = [ extensionConfig ];
 
-[
-  './src/template/styles/index.less',
-  './src/template/styles/common.less',
-  './src/template/styles/artstation.less',
-].forEach(file => {
-  fs.watchFile(file, () => {
-    cp.execSync('yarn less', { stdio: 'inherit' });
+const isDevelopment = process.argv[process.argv.indexOf('--mode') + 1] === 'development';
+
+if (isDevelopment) {
+  [
+    './template/styles/index.less',
+    './template/styles/common.less',
+    './template/styles/artstation.less',
+  ].forEach(file => {
+    fs.watchFile(file, () => {
+      cp.execSync('yarn less', { stdio: 'inherit' });
+    });
   });
-});
+}
