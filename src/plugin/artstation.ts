@@ -50,7 +50,7 @@ export const artstation = (context: vscode.ExtensionContext) => {
     handleChannel(panel, message);
     handleProject(panel, message);
     handleFollowing(panel, message);
-    handleSetWallpaper(panel, message);
+    handleSetWallpaper(context, message);
   }, undefined, context.subscriptions);
 };
 
@@ -134,7 +134,7 @@ const handleFollowing = async (panel: vscode.WebviewPanel, message: IMessage) =>
   });
 };
 
-const handleSetWallpaper = async (panel: vscode.WebviewPanel, message: IMessage) => {
+const handleSetWallpaper = async (context: vscode.ExtensionContext, message: IMessage) => {
   if (message.command !== 'wappler') {
     return;
   }
@@ -149,7 +149,7 @@ const handleSetWallpaper = async (panel: vscode.WebviewPanel, message: IMessage)
   if (answer !== 'Yes') {
     return;
   }
-  setWappler((message.payload as IPayload).url);
+  setWappler(context, (message.payload as IPayload).url);
 };
 
 const renderContent = (context: vscode.ExtensionContext, data: IImageInfo[]): string => {
