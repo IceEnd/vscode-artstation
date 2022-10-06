@@ -11,7 +11,9 @@
   ],
   "activationEvents": [
     "onCommand:artstation.login",
-    "onCommand:artstation.start"
+    "onCommand:artstation.start",
+    "onCommand:artstation.install",
+    "onCommand:artstation.uninstall"
   ],
   "main": "./dist/extension.js",
   "icon": "logo.png",
@@ -24,12 +26,22 @@
     "commands": [
       {
         "command": "artstation.login",
-        "title": "Artstation Login",
+        "title": "Artstation login",
         "category": "artstation"
       },
       {
         "command": "artstation.start",
-        "title": "Artstation Start",
+        "title": "Artstation start",
+        "category": "artstation"
+      },
+      {
+        "command": "artstation.install",
+        "title": "Artstation install",
+        "category": "artstation"
+      },
+      {
+        "command": "artstation.uninstall",
+        "title": "Artstation uninstall",
         "category": "artstation"
       }
     ],

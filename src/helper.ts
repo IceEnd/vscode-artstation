@@ -1,11 +1,30 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 
 export const getSourcePath = (context: vscode.ExtensionContext, relativePath: string): vscode.Uri => {
   const absPath = path.join(context.extensionPath, relativePath);
   const disk = vscode.Uri.file(absPath);
 
   return disk.with({ scheme: 'vscode-resource' });
+};
+
+export const removeDir = (dir: string) => {
+  if (!fs.existsSync(dir)) {
+    return;
+  }
+  let files = fs.readdirSync(dir);
+  for (let i = 0; i < files.length; i++) {
+    let newPath = path.join(dir, files[i]);
+    let stat = fs.statSync(newPath);
+    if(stat.isDirectory()){
+      removeDir(newPath);
+    } else {
+     //删除文件
+      fs.unlinkSync(newPath);
+    }
+  }
+  fs.rmdirSync(dir);
 };
 
 export const getLoadingPage = (context: vscode.ExtensionContext): string => {
