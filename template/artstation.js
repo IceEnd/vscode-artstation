@@ -142,7 +142,7 @@
         return;
       }
       vscode.postMessage({
-        command: 'wappler',
+        command: 'wallpaper',
         payload: {
           url: e.target.getAttribute('data-url'),
           for: e.target.getAttribute('data-for'),

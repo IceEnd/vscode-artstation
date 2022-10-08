@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
 import * as os from 'os';
-import { setWallpaper } from 'wallpaper';
+import * as wallpaper from 'wallpaper';
 import * as macos from './macos';
 import * as windows from './windows';
 import { randomString } from '../helper';
@@ -12,10 +12,10 @@ import { randomString } from '../helper';
 const platform = os.platform();
 
 /**
- * Set OS wappler
+ * Set OS wallpaper
  * @param image picture url
  */
-export const setWappler = async (context: vscode.ExtensionContext, image: string): Promise<void> => {
+export const setWallpaper = async (context: vscode.ExtensionContext, image: string): Promise<void> => {
   const configure = vscode.workspace.getConfiguration('artstation');
   const wallpaperPath = configure.get('wallpaperPath') as string;
   const valid = validPath(wallpaperPath);
@@ -80,7 +80,7 @@ const setOSWallpaper = async (context: vscode.ExtensionContext, filePath: string
       const binary = path.join(context.globalStorageUri.fsPath, 'windows-wallpaper.exe');
       await windows.setWallpaper(binary, filePath);
     } else {
-      await setWallpaper(filePath);
+      await wallpaper.setWallpaper(filePath);
     }
     vscode.window.showInformationMessage('Succeeded.');
   } catch (error) {
@@ -150,6 +150,6 @@ const showDownloadMessage = (success: boolean, err?: unknown) => {
     vscode.window.showInformationMessage('Install Succeed. 安装成功');
     return;
   }
-  vscode.window.showErrorMessage('Install faild. 安装失败');
+  vscode.window.showErrorMessage('Install failed. 安装失败');
   console.error(err);
 };
