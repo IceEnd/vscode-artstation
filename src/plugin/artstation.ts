@@ -30,6 +30,7 @@ export const artstation = (context: vscode.ExtensionContext) => {
 
   const cookie = context.globalState.get(SyncKeys.cookie) || '';
   apis.setCookie(cookie as string);
+  apis.setToken();
 
   apis.fetchList(state.channel, state.page)
     .then((res) => {
@@ -41,6 +42,7 @@ export const artstation = (context: vscode.ExtensionContext) => {
     handleChannel(panel, message);
     handleProject(panel, message);
     handleFollowing(panel, message);
+    handleVotes(panel, message);
     handleSetWallpaper(context, message);
   }, undefined, context.subscriptions);
 };
@@ -105,17 +107,41 @@ const handleFollowing = async (panel: vscode.WebviewPanel, message: IMessage) =>
     followed: (message.payload as IPayload).followed,
   };
   try {
-    interface IPayload {
-      id: string,
-      followed: boolean,
-      hashID: string,
-    }
     await apis.fetchFollowing(
       (message.payload as IPayload).id,
       state.channel,
       (message.payload as IPayload).followed,
     );
     payload.followed = !payload.followed;
+  } catch (error) {
+    payload.success = false;
+  }
+  panel.webview.postMessage({
+    command: message.command,
+    payload,
+  });
+};
+
+const handleVotes = async (panel: vscode.WebviewPanel, message: IMessage) => {
+  if (message.command !== 'votes') {
+    return;
+  }
+  type IPayload = {
+    id: string,
+    liked: boolean,
+    hashID: string,
+  };
+  const payload = {
+    success: true,
+    hashID: (message.payload as IPayload).hashID,
+    liked: (message.payload as IPayload).liked,
+  };
+  try {
+    await apis.fetchVotes(
+      (message.payload as IPayload).id,
+      (message.payload as IPayload).liked,
+    );
+    payload.liked = !payload.liked;
   } catch (error) {
     payload.success = false;
   }

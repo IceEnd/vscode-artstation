@@ -27,6 +27,7 @@
     channelItem: '.channels-sorting-item',
     gallery: '#gallery-grid-artstation',
     following: '.project-overlay .btn-following',
+    votes: '.project-overlay .btn-like',
   };
 
   const main = () => {
@@ -34,6 +35,7 @@
     bindProject();
     bindCloseProject();
     bindFollow();
+    bindVotes();
     bindSetBackground();
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
@@ -135,6 +137,24 @@
     };
   };
 
+  const bindVotes = () => {
+    window.artstationVotes = (id) => {
+      const target = document.querySelector(SELECTORS.votes);
+      if (target.classList.value.includes('disabled')) {
+        return;
+      }
+      target.classList.add('disabled');
+      vscode.postMessage({
+        command: 'votes',
+        payload: {
+          id: String(id),
+          liked: !target.classList.value.includes('btn-success'),
+          hashID: state.projectID,
+        },
+      });
+    };
+  };
+
   const bindSetBackground = () => {
     const overlay = document.querySelector(SELECTORS.projectOverlay);
     overlay.addEventListener('click', e => {
@@ -174,6 +194,7 @@
     messageChannel(message);
     messageProject(message);
     messageFollowing(message);
+    messageVotes(message);
   };
 
   const handleResize = () => {
@@ -237,6 +258,23 @@
       target.classList.add('followed');
     } else {
       target.classList.remove('followed');
+    }
+  };
+
+  const messageVotes = message => {
+    if (message.command !== 'votes'
+    || message.payload.hashID !== state.projectID) {
+      return;
+    }
+    const target = document.querySelector(SELECTORS.votes);
+    target.classList.remove('disabled');
+    if (!message.payload.success) {
+      return;
+    }
+    if (message.payload.liked) {
+      target.classList.remove('btn-success');
+    } else {
+      target.classList.add('btn-success');
     }
   };
   /** MESSAGE CALLBACK: END */

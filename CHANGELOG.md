@@ -1,8 +1,11 @@
 # Change Log
 
+## [0.0.3]
+
+- feat: Favorite project.
+- feat: Follow the author.
+
 ## [0.0.1]
 
-### Features
-
-- Browse Artstation projects on VS Code.
-- Set system wallpaper.
+- new: Browse Artstation projects on VS Code.
+- new: Set system wallpaper.

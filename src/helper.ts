@@ -73,7 +73,15 @@ export const randomString = (length = 32): string => {
   const token = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
   let res = '';
   for (let i = 0; i < length; i++) {
-    res += token.charAt(Math.floor(Math.random() * token.length))
+    res += token.charAt(Math.floor(Math.random() * token.length));
   };
   return res;
+};
+
+export const getCookie = (cookie: string, name: string): string => {
+  const parts = cookie.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()!.split(';').shift() as string;
+  }
+  return '';
 };
