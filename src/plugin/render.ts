@@ -170,8 +170,9 @@ export const renderAuthor = (author: IUserInfo): string => `
     <h3 class="project-author-headline">${author.headline || ''}</h3>
     <div class="follow-button">
       <button
-        class="btn-following disabled disabled-1 ${author.followed ? 'followed' : ''}"
+        class="btn-following ${author.followed ? 'followed' : ''}"
         type="button"
+        onclick="artstationFollow(${author.id})"
       >
         <span class="has-followed">
           <i class="far fa-check fa-pad-right"></i>Following
@@ -188,7 +189,10 @@ export const renderAuthor = (author: IUserInfo): string => `
 export const renderUserAction = (project: IProject): string => `
 <div class="project-actions-user row">
   <div class="col-xs-6">
-    <button class="btn-like disabled btn-block ${project.liked ? '' : 'btn-success'}">
+    <button
+      class="btn-like btn-block ${project.liked ? '' : 'btn-success'}"
+      onclick="artstationVotes(${project.id})"
+    >
       <span class="liked-txt">
         <i class="far fa-check fa-pad-right"></i>Liked
       </span>
