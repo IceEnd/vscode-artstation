@@ -131,7 +131,8 @@ export const renderAssetActions = (url: string): string => {
   }
   return `
   <div class="asset-actions">
-    <i class="asset-actions-btn-bg far fa-cog" data-url="${url}" data-for="desktop"></i>
+    <i class="btn asset-actions-btn-download far fa-arrow-to-bottom" data-url="${url}"></i>
+    <i class="btn asset-actions-btn-bg far fa-cog" data-url="${url}" data-for="desktop"></i>
   </div>
 `;
 };

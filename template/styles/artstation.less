@@ -354,12 +354,13 @@
         transform: translate(-50%, 0);
         z-index: 2;
         opacity: 0;
+        font-size: 0;
         transition: opacity .2s linear;
         box-shadow: 1px 1px 5px 0 rgb(0 0 0 / 50%);
 
-        &-btn-bg {
+        .btn {
           font-size: 12px;
-          padding: 6px 12px;
+          padding: 6px 8px;
           line-height: 1.8;
           border-radius: 2px;
           user-select: none;
@@ -375,7 +376,7 @@
   }
 }
 
-@media screen and (min-width: 300px) {
+@media screen and (min-width: 200px) {
   .gallery-grid {
     grid-template-columns: repeat(3, 1fr) !important;
   }
@@ -384,6 +385,9 @@
 @media screen and (min-width: 480px) {
   .d-md-block {
     display: block !important;
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
 

@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.4] 2022.10.10
+
+- feat: Download picture.
+
 ## [0.0.3]
 
 - feat: Favorite project.

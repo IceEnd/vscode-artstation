@@ -37,6 +37,7 @@
     bindFollow();
     bindVotes();
     bindSetBackground();
+    bindDownload();
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
     window.addEventListener('message', handleMessage);
@@ -168,10 +169,22 @@
           for: e.target.getAttribute('data-for'),
         },
       });
-      console.log(e.target);
     });
   };
-   /** DOM EVENTS: END **/
+
+  const bindDownload = () => {
+    const overlay = document.querySelector(SELECTORS.projectOverlay);
+    overlay.addEventListener('click', e => {
+      if (!e.target.classList.value.includes('asset-actions-btn-download')) {
+        return;
+      }
+      vscode.postMessage({
+        command: 'download',
+        payload: e.target.getAttribute('data-url'),
+      });
+    });
+  };
+  /** DOM EVENTS: END **/
 
   const handleScroll = () => {
     if (state.loading) {
