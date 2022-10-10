@@ -5,7 +5,7 @@ import * as apis from './api';
 import * as render from './render';
 import { channelType, IMessage } from './model';
 import { setWallpaper } from '../wallpaper';
-import { getLoadingPage } from '../helper';
+import { getLoadingPage, validWallpaperPath, downloadFile, getWallpaperPath } from '../helper';
 import { SyncKeys } from '../constants';
 
 dayjs.extend(relativeTime);
@@ -44,6 +44,7 @@ export const artstation = (context: vscode.ExtensionContext) => {
     handleFollowing(panel, message);
     handleVotes(panel, message);
     handleSetWallpaper(context, message);
+    handleDownload(context, message);
   }, undefined, context.subscriptions);
 };
 
@@ -155,10 +156,10 @@ const handleSetWallpaper = async (context: vscode.ExtensionContext, message: IMe
   if (message.command !== 'wallpaper') {
     return;
   }
-  interface IPayload {
+  type IPayload = {
     url: string,
     for: string,
-  }
+  };
   const answer = await vscode.window.showInformationMessage(
     'Do you want to set it as the system wallpaper? 要设置成系统壁纸吗？',
     'Yes', 'No',
@@ -167,4 +168,22 @@ const handleSetWallpaper = async (context: vscode.ExtensionContext, message: IMe
     return;
   }
   setWallpaper(context, (message.payload as IPayload).url);
+};
+
+const handleDownload = async (context: vscode.ExtensionContext, message: IMessage) => {
+  if (message.command !== 'download') {
+    return;
+  }
+  const valid = validWallpaperPath();
+  if (!valid) {
+    return;
+  }
+  const filePath = getWallpaperPath(message.payload as string);
+  try {
+    await downloadFile(message.payload as string, filePath);
+    vscode.window.showInformationMessage('Download succeed. 下载成功');
+  } catch (error) {
+    console.error(error);
+    vscode.window.showErrorMessage('Download failed. 下载失败');
+  }
 };

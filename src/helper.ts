@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as url from 'url';
+import axios from 'axios';
 
 export const getSourcePath = (context: vscode.ExtensionContext, relativePath: string): vscode.Uri => {
   const absPath = path.join(context.extensionPath, relativePath);
@@ -84,4 +86,62 @@ export const getCookie = (cookie: string, name: string): string => {
     return parts.pop()!.split(';').shift() as string;
   }
   return '';
+};
+
+export const downloadFile = async (
+  url: string,
+  filePath: string,
+): Promise<boolean> => {
+  const response = await axios({
+    url,
+    method: 'GET',
+    responseType: 'stream',
+  });
+  if (response.status === 302) {
+    return downloadFile(response.headers.location as string, filePath);
+  }
+  if (response.status !== 200) {
+    throw new Error(`HTTP STATUS: ${response.status}`);
+  }
+  const file = fs.createWriteStream(filePath);
+
+  return new Promise((resolve, reject) => {
+    file.on('finish', () => {
+      file.close();
+      resolve(true);
+    });
+    file.on('error', err => reject(err));
+
+    response.data.pipe(file);
+  });
+};
+
+export const validWallpaperPath = (): boolean => {
+  const configure = vscode.workspace.getConfiguration('artstation');
+  const wallpaperPath = configure.get('wallpaperPath') as string;
+  if (!wallpaperPath) {
+    vscode.window.showErrorMessage([
+      'Please set wallpaper save path.',
+      '请先设置壁纸保存路径',
+    ].join(' '));
+    return false;
+  }
+  if (!fs.lstatSync(wallpaperPath).isDirectory()) {
+    vscode.window.showErrorMessage([
+      'Wallpaper save path is incorrect',
+      '壁纸保存路径不正确',
+    ].join(' '));
+    return false;
+  }
+  return true;
+};
+
+export const getWallpaperPath = (imageUrl: string): string => {
+  const configure = vscode.workspace.getConfiguration('artstation');
+  const wallpaperPath = configure.get('wallpaperPath') as string;
+
+  const pathname = url.parse(imageUrl).pathname;
+  const basename = path.basename(pathname as string);
+  const filePath = path.join(wallpaperPath, `${randomString(5)}-${basename}`);
+  return filePath;
 };
