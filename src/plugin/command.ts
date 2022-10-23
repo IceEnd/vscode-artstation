@@ -31,7 +31,11 @@ const loginCommand = async (context: vscode.ExtensionContext): Promise<void> => 
     }
     context.globalState.update(SyncKeys.cookie, cookie);
     apis.setCookie(cookie);
-    await apis.fetchToken();
+    try {
+      await apis.fetchToken();
+    } catch (ex) {
+      // do nothing.
+    }
     vscode.window.showInformationMessage('Succeed.');
   });
   context.subscriptions.push(disposable);

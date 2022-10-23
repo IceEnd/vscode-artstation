@@ -1,0 +1,12 @@
+export * as cinnamon from './cinnamon';
+export * as dconf from './dconf';
+export * as dcop from './dcop';
+export * as feh from './feh';
+export * as gconftool2 from './gconftool-2';
+export * as gnome from './gnome';
+export * as mate from './mate';
+export * as nitrogen from './nitrogen';
+export * as pcmanfm from './pcmanfm';
+export * as qdbus from './qdbus';
+export * as setroot from './setroot';
+export * as xfconfquery from './xfconf-query';

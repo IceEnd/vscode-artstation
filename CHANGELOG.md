@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.5] 2022.10.23
+
+- bugfix: fix not working on windows
+
 ## [0.0.4] 2022.10.10
 
 - feat: Download picture.

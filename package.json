@@ -2,7 +2,7 @@
   "name": "artstation",
   "displayName": "artstation",
   "description": "Artstation for VS Code",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -90,7 +90,6 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "dayjs": "^1.11.5",
-    "wallpaper": "^6.1.1"
+    "dayjs": "^1.11.5"
   }
 }

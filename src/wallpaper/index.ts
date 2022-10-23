@@ -2,9 +2,9 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import * as wallpaper from 'wallpaper';
 import * as macos from './macos';
 import * as windows from './windows';
+import * as linux from './linux/index';
 import { downloadFile, validWallpaperPath, getWallpaperPath } from '../helper';
 
 const platform = os.platform();
@@ -38,7 +38,7 @@ const setOSWallpaper = async (context: vscode.ExtensionContext, filePath: string
       const binary = path.join(context.globalStorageUri.fsPath, 'windows-wallpaper.exe');
       await windows.setWallpaper(binary, filePath);
     } else {
-      await wallpaper.setWallpaper(filePath);
+      await linux.setWallpaper(filePath);
     }
     vscode.window.showInformationMessage('Succeeded.');
   } catch (error) {
