@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import * as vscode from 'vscode';
-import { channelType, IListResponse, IProject, IToken } from './model';
+import { channelType, IListResponse, IProject } from './model';
 import { getCookie } from '../helper';
 
 // page size
@@ -15,7 +15,9 @@ const instance = axios.create({
 
 const interceptorRejected = (error: AxiosResponse) => {
   console.error(error);
-  vscode.window.showErrorMessage('Artstation: Request failed.');
+  if (!(error.config as { silence: boolean }).silence) {
+    vscode.window.showErrorMessage('Artstation: Request failed.');
+  }
   return Promise.reject(error);
 };
 
@@ -43,7 +45,10 @@ export const setToken = async () => {
 
 export const fetchToken = (): Promise<string> => {
   const url = 'api/v2/csrf_protection/token';
-  return instance.get(url);
+  return instance.get(url, {
+    // @ts-ignore
+    silence: true,
+  });
 };
 
 export const fetchList = (
