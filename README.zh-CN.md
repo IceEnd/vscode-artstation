@@ -14,7 +14,6 @@
   </p>
 </p>
 
-
 [English](./README.md) | [中文](./README.zh-CN.md)
 
 ## 功能
@@ -34,15 +33,17 @@ step 2. 设置壁纸路径
 
 首先在插件设置中壁纸在本地的保存路径，后续壁纸都将会下载至此文件夹。
 
-![congig](https://user-images.githubusercontent.com/11556339/194198589-8ea4acfc-7899-4bf0-b4ee-791ba75864fe.png)
+![config](https://user-images.githubusercontent.com/11556339/194198589-8ea4acfc-7899-4bf0-b4ee-791ba75864fe.png)
 
 step 3. 如果有 artstation 账号，可以访问网站，随便找一个请求，复制 请求头的 cookie 部分。回到 VS Code ，打开输入命令 artstation login，粘贴 cookie 。
+
+![get cookie](https://user-images.githubusercontent.com/11556339/197974112-10e91570-5f82-4f4d-8670-73997657e392.gif)
 
 ![login](https://user-images.githubusercontent.com/11556339/194199176-ad5d5abb-3b27-4e9f-b57e-ecd1afe6e6f8.png)
 
 step 4. 后续执行 artstation start 就可以打开 artstation 了。
 
-step 5. MacOS 和 Windows 下如果要一键设置壁纸（**linux**用户可以忽略），则需要先执行 artstation install，这会先从 github 上下载对应的壁纸设置二进制文件。artstation uninstall 可以删除该二进制文件。 
+step 5. MacOS 和 Windows 下如果要一键设置壁纸（**linux**用户可以忽略），则需要先执行 artstation install，这会先从 github 上下载对应的壁纸设置二进制文件。artstation uninstall 可以删除该二进制文件。
 
 ![wallpaper](https://user-images.githubusercontent.com/11556339/194199739-6347b0dd-26d3-434b-9568-9aa3efd45ce3.png)
 

@@ -25,8 +25,6 @@
 |-------:|:-----|
 | ![image](https://user-images.githubusercontent.com/11556339/193978773-d9b93e2e-3d4d-4c67-bf75-f0d9a9683be6.png) | ![image](https://user-images.githubusercontent.com/11556339/193978873-6e3e797b-5783-4554-8fa5-cde9648ccc4b.png) |
 
-
-
 ## Command
 
 | Name                      | Description                                 |
@@ -42,7 +40,9 @@
 | :-------------------------- | :-------------: | :----------: | :------------------------- |
 | `artstation.wallpaperPath`  |    `string`     |     `''`     | Wallpaper save path        |
 
+## How to get cookies
 
+![get cookie](https://user-images.githubusercontent.com/11556339/197974112-10e91570-5f82-4f4d-8670-73997657e392.gif)
 
 ## LICENSE
 
